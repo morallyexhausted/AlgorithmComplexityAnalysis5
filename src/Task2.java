@@ -1,10 +1,31 @@
-public class Task2 {
-    public static void main(String[] args) {
-        // Данные из примера: n = 5, k = 2, массив [10, 4, 8, 7, 9]
-        int k = 2;
-        int[] arr = {10, 4, 8, 7, 9};
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-        int result = quickSelect(arr, 0, arr.length - 1, k - 1);
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String line = reader.readLine();
+        if (line == null || line.trim().isEmpty()) return;
+
+        StringTokenizer tokenizer = new StringTokenizer(line);
+        int n = Integer.parseInt(tokenizer.nextToken());
+        int k = Integer.parseInt(tokenizer.nextToken());
+
+        int[] arr = new int[n];
+        int index = 0;
+        while (index < n) {
+            if (!tokenizer.hasMoreTokens()) {
+                String nextLine = reader.readLine();
+                if (nextLine == null) break;
+                tokenizer = new StringTokenizer(nextLine);
+            }
+            arr[index++] = Integer.parseInt(tokenizer.nextToken());
+        }
+
+        // Искомый индекс в 0-индексации для порядка по убыванию — это k - 1
+        int result = quickSelect(arr, 0, n - 1, k - 1);
         System.out.println(result);
     }
 
@@ -19,9 +40,14 @@ public class Task2 {
         int i = left;
         int j = right;
 
+        // Для порядка ПО УБЫВАНИЮ элементы больше пивота идут слева (в начало)
         while (i <= j) {
-            while (arr[i] > pivot) i++;
-            while (arr[j] < pivot) j--;
+            while (arr[i] > pivot) {
+                i++;
+            }
+            while (arr[j] < pivot) {
+                j--;
+            }
             if (i <= j) {
                 int temp = arr[i];
                 arr[i] = arr[j];
